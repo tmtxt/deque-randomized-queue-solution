@@ -113,7 +113,28 @@ public class Deque<Item> implements Iterable<Item> {
 
     @Override
     public Iterator<Item> iterator() {
-        return null;
+        return new DequeIterator();
+    }
+
+    private class DequeIterator implements Iterator<Item> {
+        private Node current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Item next() {
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove is not supported on DequeIterator");
+        }
     }
 
     public static void main(String[] args) {
@@ -126,16 +147,22 @@ public class Deque<Item> implements Iterable<Item> {
         d.addLast("you");
 
         System.out.println(d.size());
-        System.out.println(d.first);
-        System.out.println(d.first.next);
-        System.out.println(d.first.next.next);
-        System.out.println(d.first.next.next.next);
+        for (String s : d) {
+            System.out.println(s);
+        }
 
         System.out.println("----");
         d.removeFirst();
         d.removeLast();
-        System.out.println(d.first);
-        System.out.println(d.first.next);
-        System.out.println(d.first.next.next);
+        for (String s : d) {
+            System.out.println(s);
+        }
+
+        System.out.println(d.size());
+        System.out.println("---");
+
+        for (String s : d) {
+            System.out.println(s);
+        }
     }
 }
