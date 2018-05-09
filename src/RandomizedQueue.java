@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.StdRandom;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
@@ -31,6 +32,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (size == this.capacity) {
             this.resize(this.capacity * 2);
         }
+
+        int index = this.getIndex(this.tail);
+        this.q[index] = item;
+        this.tail++;
     }
 
     public Item dequeue() {
@@ -68,6 +73,30 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
+        RandomizedQueue<String> queue = new RandomizedQueue<>();
+        System.out.println(queue.size());
+        System.out.println(Arrays.toString(queue.q));
+        System.out.println("--");
 
+        System.out.println("enqueue hello");
+        queue.enqueue("hello");
+        System.out.println(queue.size());
+        System.out.println(Arrays.toString(queue.q));
+        System.out.println(queue.head);
+        System.out.println(queue.tail);
+
+        System.out.println("enqueue abc");
+        queue.enqueue("abc");
+        System.out.println(queue.size());
+        System.out.println(Arrays.toString(queue.q));
+        System.out.println(queue.head);
+        System.out.println(queue.tail);
+
+        System.out.println("enqueue def");
+        queue.enqueue("def");
+        System.out.println(queue.size());
+        System.out.println(Arrays.toString(queue.q));
+        System.out.println(queue.head);
+        System.out.println(queue.tail);
     }
 }
