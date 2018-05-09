@@ -38,8 +38,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             this.resize(this.capacity * 2);
         }
 
-        int index = this.getIndex(this.tail);
-        this.q[index] = item;
+        this.q[this.tail] = item;
         this.tail++;
     }
 
@@ -51,14 +50,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         // get item from random index
         int randomIndex = StdRandom.uniform(this.head, this.tail);
-        int index = this.getIndex(randomIndex);
-        Item item = this.q[index];
+        Item item = this.q[randomIndex];
 
         // move the last item to the removed item index
-        int lastIndex = this.getIndex(this.tail - 1);
+        int lastIndex = this.tail - 1;
         if (randomIndex != this.tail - 1) { // only perform
             Item lastItem = this.q[lastIndex];
-            this.q[index] = lastItem;
+            this.q[randomIndex] = lastItem;
         }
 
         // remove the last item
@@ -81,21 +79,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Item[] newQ = (Item[]) new Object[newCap];
 
         // copy to new queue
-        int newIndex;
         int i;
-        for (i = head, newIndex = 0; i < tail; i++, newIndex++) {
-            int oldIndex = this.getIndex(i);
-            newQ[newIndex] = this.q[oldIndex];
+        for (i = head; i < tail; i++) {
+            newQ[i] = this.q[i];
         }
 
         this.q = newQ;
         this.capacity = newCap;
         this.head = 0;
-        this.tail = newIndex;
-    }
-
-    private int getIndex(int index) {
-        return index % this.capacity;
+        this.tail = i;
     }
 
     public static void main(String[] args) {
