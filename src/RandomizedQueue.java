@@ -81,7 +81,43 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public Iterator<Item> iterator() {
-        return null;
+        return new RandomizedQueueIterator();
+    }
+
+    private class RandomizedQueueIterator implements Iterator<Item> {
+        int[] order;
+        int idx;
+
+        public RandomizedQueueIterator() {
+            order = new int[tail];
+            for (int i = 0; i < tail; i++) {
+                order[i] = i;
+            }
+            StdRandom.shuffle(order);
+            idx = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return idx < order.length;
+        }
+
+        @Override
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No next element");
+            }
+
+            Item item = q[order[idx]];
+            idx++;
+
+            return item;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove is not supported");
+        }
     }
 
     private void resize(int newCap) {
@@ -124,14 +160,31 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         System.out.println(queue.tail);
 
         System.out.println("---");
-        System.out.println("dequeue");
-        System.out.println(queue.dequeue());
-        System.out.println(Arrays.toString(queue.q));
-        System.out.println(queue.tail);
 
-        System.out.println("dequeue");
-        System.out.println(queue.dequeue());
-        System.out.println(Arrays.toString(queue.q));
-        System.out.println(queue.tail);
+        System.out.println("random1");
+        for (String item : queue) {
+            System.out.println(item);
+        }
+
+        System.out.println("random2");
+        for (String item : queue) {
+            System.out.println(item);
+        }
+
+        System.out.println("random3");
+        for (String item : queue) {
+            System.out.println(item);
+        }
+
+//        System.out.println("---");
+//        System.out.println("dequeue");
+//        System.out.println(queue.dequeue());
+//        System.out.println(Arrays.toString(queue.q));
+//        System.out.println(queue.tail);
+//
+//        System.out.println("dequeue");
+//        System.out.println(queue.dequeue());
+//        System.out.println(Arrays.toString(queue.q));
+//        System.out.println(queue.tail);
     }
 }
